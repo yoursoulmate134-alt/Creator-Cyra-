@@ -1,0 +1,8 @@
+{
+  "name": "Cyra Creator Studio",
+  "description": "Mobile-first 3D avatar and fashion creation application with real-time 3D modeling workspace, texture editor, Cyra AI creative assistant, and creator community.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
