@@ -80,17 +80,34 @@ export const StudioWorkspace: React.FC<StudioWorkspaceProps> = ({
 
     engineRef.current = engine;
 
+    
     const handleResize = () => {
-      if (containerRef.current && engineRef.current) {
-        engineRef.current.resize(
-          containerRef.current.clientWidth,
-          containerRef.current.clientHeight
-        );
+      const container = containerRef.current;
+      const activeEngine = engineRef.current;
+      if (!container || !activeEngine) return;
+
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      if (width > 0 && height > 0) {
+        activeEngine.resize(width, height);
       }
     };
+
+    const resizeObserver = typeof ResizeObserver !== 'undefined'
+      ? new ResizeObserver(handleResize)
+      : null;
+
+    if (containerRef.current) {
+      resizeObserver?.observe(containerRef.current);
+    }
+
     window.addEventListener('resize', handleResize);
+    const initialResizeFrame = window.requestAnimationFrame(handleResize);
+
 
     return () => {
+window.cancelAnimationFrame(initialResizeFrame);
+resizeObserver?.disconnect();
       window.removeEventListener('resize', handleResize);
       engine.destroy();
       engineRef.current = null;
